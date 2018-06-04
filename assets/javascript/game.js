@@ -36,24 +36,35 @@ for (i=0; i<9; i++) {
     document.onkeyup = function (event) {
     // to record user input
     var userGuess = event.key;
-    document.querySelector("#current-keystroke").innerHTML=("You guessed "+userGuess);
+    
+    if (possible.includes(userGuess)) {
         
-        // runs game functionality
-        if (userGuess==computerGuess) {
-            wins++;            
-            alert("You win! The computer has chosen a new letter.");
-            newGame();
-            updateDisplay();
-        } else if (guessCount>=1) {
-            guessCount--;
-            // to include the key pressed in the list of "letters already guessed"
-            guessedLetters.push(userGuess);
-            updateDisplay();
+        document.querySelector("#current-keystroke").innerHTML=("You guessed "+userGuess);
+        
+            if (guessedLetters.includes(userGuess)) {
+                alert("You already guessed "+userGuess+". Try again.")
+            } else {
+                // runs game functionality
+                if (userGuess==computerGuess) {
+                    wins++;            
+                    alert("You win! The computer has chosen a new letter.");
+                    newGame();
+                    updateDisplay();
+                } else if (guessCount>=1) {
+                    guessCount--;
+                    // to include the key pressed in the list of "letters already guessed"
+                    guessedLetters.push(userGuess);
+                    updateDisplay();
+                } else {
+                    losses++;
+                    alert("You lose! Try again.");
+                    newGame();
+                    updateDisplay();
+                }
+            }
         } else {
-            losses++;
-            alert("You lose! Try again.");
-            newGame();
-            updateDisplay();
+            document.querySelector("#current-keystroke").innerHTML=("Please guess a letter from a-z.");
         }
     }
 }
+
